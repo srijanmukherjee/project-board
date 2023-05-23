@@ -18,40 +18,40 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @RequestMapping("")
+    @GetMapping("")
     public List<Project> getProjects() {
         return projectService.getProjects();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "")
+    @PostMapping("")
     public void addProject(@RequestBody Project project) {
         projectService.addProject(project);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    @PutMapping("/{id}")
     public void updateProject(@RequestBody Project project, @PathVariable Integer id)
         throws ProjectNotFoundException {
         projectService.updateProject(id, project);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/requirements")
+    @PutMapping("/{id}/requirements")
     public void addProjectRequirement(@RequestBody Requirement requirement, @PathVariable Integer id)
         throws ProjectNotFoundException {
         projectService.addProjectRequirement(id, requirement);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}/requirements")
+    @DeleteMapping("/{id}/requirements")
     public void removeProjectRequirement(@RequestBody Requirement requirement, @PathVariable Integer id)
         throws ProjectNotFoundException {
         projectService.removeProjectRequirement(id, requirement);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Integer id) throws ProjectNotFoundException {
         projectService.deleteProject(id);
     }
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Project getProject(@PathVariable Integer id) throws ProjectNotFoundException {
         return projectService.getProject(id);
     }
