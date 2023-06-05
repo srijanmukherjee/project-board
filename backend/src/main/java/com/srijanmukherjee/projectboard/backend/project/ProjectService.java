@@ -5,16 +5,23 @@ import com.srijanmukherjee.projectboard.backend.detail.DetailRepository;
 import com.srijanmukherjee.projectboard.backend.project.exception.ProjectNotFoundException;
 import com.srijanmukherjee.projectboard.backend.requirement.Requirement;
 import com.srijanmukherjee.projectboard.backend.requirement.RequirementRepository;
+import com.srijanmukherjee.projectboard.backend.util.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Service
 public class ProjectService {
+    public static final int DEFAULT_PROJECTS_PER_PAGE = 10;
+    public static final int MIN_PROJECTS_PER_PAGE = DEFAULT_PROJECTS_PER_PAGE;
+    public static final int STEP_PROJECTS_PER_PAGE = 5;
+    public static final int MAX_PROJECTS_PER_PAGE = 100;
 
     private final ProjectRepository projectRepository;
     private final RequirementRepository requirementRepository;
@@ -29,11 +36,33 @@ public class ProjectService {
         this.detailRepository = detailRepository;
     }
 
-    public List<Project> getProjects() {
-        List<Project> projects = new ArrayList<>();
-        projectRepository.findAll()
-                .forEach(projects::add);
-        return projects;
+    public Page<Project> getProjects(Integer page, Integer projectsPerPage, String query) {
+        if (projectsPerPage == null ||
+                projectsPerPage < MIN_PROJECTS_PER_PAGE ||
+                projectsPerPage % STEP_PROJECTS_PER_PAGE != 0 ||
+                projectsPerPage > MAX_PROJECTS_PER_PAGE)
+            projectsPerPage = DEFAULT_PROJECTS_PER_PAGE;
+
+        if (page == null)
+            page = 1;
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setPage(page - 1);
+        searchRequest.setSize(projectsPerPage);
+
+        if (query != null && !query.isEmpty())
+            searchRequest.setFilters(List.of(
+                    new FilterRequest("title", Operator.LIKE, FieldType.STRING, "%" + query + "%")
+            ));
+
+        searchRequest.setSorts(List.of(
+                new SortRequest("status", SortDirection.ASC)
+        ));
+
+        SearchSpecification<Project> specification = new SearchSpecification<>(searchRequest);
+        Pageable pageRequest = PageRequest.of(searchRequest.getPage(), searchRequest.getSize());
+
+        return projectRepository.findAll(specification, pageRequest);
     }
 
     public Project getProject(Integer id) throws ProjectNotFoundException {
@@ -90,7 +119,7 @@ public class ProjectService {
         }
 
         if (project.getTitle() != null &&
-            project.getTitle().equals(oldProject.getTitle()))
+                project.getTitle().equals(oldProject.getTitle()))
             oldProject.setTitle(project.getTitle());
 
         if (project.getStatus() != null && project.getStatus() != oldProject.getStatus())

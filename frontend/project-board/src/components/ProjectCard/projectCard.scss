@@ -1,0 +1,143 @@
+.project-card {
+	background-color: #fff;
+	padding: 1em;
+	border-radius: 5px;
+	box-shadow: 0px 0px 16px 0 rgba(75, 75, 75, 29%);
+	position: relative;
+	margin-bottom: 15px;
+
+	& > div:not(:last-child) {
+		margin-bottom: 16px;
+	}
+
+	&.status {
+		padding-right: 1.4em;
+	}
+
+	&.status:after {
+		content: attr(data-status);
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-color: #24a0e7;
+		padding: 0 0.3em;
+		color: #fff;
+		font-style: italic;
+		font-size: 0.6em;
+		writing-mode: vertical-lr;
+		text-align: center;
+		border-top-right-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+
+	&.status.completed:after {
+		background-color: #35c801;
+	}
+}
+
+.project-title {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.project-section {
+	.heading {
+		display: flex;
+		align-items: center;
+		margin-bottom: 16px;
+		font-size: 0.9em;
+
+		.icon {
+			width: 20px;
+			margin-right: 7px;
+
+			svg {
+				stroke-width: 3px;
+			}
+		}
+	}
+
+	.chips {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		row-gap: 10px;
+
+		.chip {
+			border-radius: 9999px;
+			padding: 0.5em 2.3em;
+			background-color: #f2f2f2;
+			font-size: 0.7em;
+
+			&.detail-chip {
+				background-color: #323232;
+				padding: 0;
+
+				a {
+					padding: 0.5em 2.3em;
+					width: 100%;
+					display: flex;
+					color: #fff;
+					text-transform: capitalize;
+					text-decoration: none;
+
+					.icon {
+						width: 16px;
+						margin-right: 5px;
+
+						svg {
+							stroke: #fff;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.project-card.skeleton {
+	.project-title {
+		background-color: #d6d6d6;
+		color: transparent;
+		user-select: none;
+		animation: skeleton 1s linear infinite alternate;
+		border-radius: 5px;
+	}
+
+	.project-section {
+		.chip {
+			color: transparent;
+			user-select: none;
+
+			a {
+				color: transparent;
+				user-select: none;
+				pointer-events: none;
+
+				* {
+					display: none;
+				}
+			}
+
+			animation: skeleton 1s linear infinite alternate;
+		}
+	}
+
+	&:after {
+		display: none;
+	}
+}
+
+@keyframes skeleton {
+	from {
+		background-color: #d6d6d6;
+	}
+
+	to {
+		background-color: #b6b6b6;
+	}
+}

@@ -1,0 +1,17 @@
+.project-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	.loader-container {
+		display: grid;
+		place-items: center;
+		padding: 5em 1em;
+	}
+
+	.not-found > div {
+		text-align: center;
+		padding: auto 1em;
+		font-size: 1.4em;
+	}
+}

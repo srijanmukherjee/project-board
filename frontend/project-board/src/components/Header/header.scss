@@ -1,0 +1,68 @@
+.topbar {
+	h1 {
+		margin: 0;
+		font-size: calc(1rem + 1vw);
+		font-weight: bold;
+	}
+
+	button {
+		padding: 0.5em 1.5em;
+		background-color: black;
+		border-radius: 5px;
+		outline: none;
+		border: none;
+		color: #fff;
+		box-shadow: 0px 0px 8px 0 rgba(0, 0, 0, 45%);
+		cursor: pointer;
+	}
+
+	.top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.bottom {
+		padding: 1.3em 0;
+
+		.inputbox {
+			display: flex;
+			align-items: center;
+			padding: 0.5em;
+			border-radius: 5px;
+			box-shadow: inset 0 0 8px 0 rgba(177, 177, 177, 56%);
+			transition: all 50ms ease-in-out;
+			background-color: #fff;
+
+			&:focus-within {
+				box-shadow: inset 0 0 0 0 #000, 0 0 8px 0 #646464;
+
+				.icon > svg {
+					stroke: #646464;
+				}
+			}
+
+			input {
+				flex: 1;
+				border: none;
+				background: transparent;
+				outline: none;
+
+				&::placeholder {
+					color: #929292;
+				}
+			}
+
+			.icon {
+				display: block;
+				width: 16px;
+				height: 16px;
+				margin-right: 5px;
+
+				svg {
+					stroke: #929292;
+				}
+			}
+		}
+	}
+}

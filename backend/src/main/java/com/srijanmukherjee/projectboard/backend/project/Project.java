@@ -3,11 +3,7 @@ package com.srijanmukherjee.projectboard.backend.project;
 import com.srijanmukherjee.projectboard.backend.detail.Detail;
 import com.srijanmukherjee.projectboard.backend.requirement.Requirement;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +13,7 @@ public class Project {
     private Integer id;
     @Column(unique = true)
     private String title;
-    @OneToMany
+    @ManyToMany
     private Set<Requirement> requirements;
     @Enumerated(EnumType.ORDINAL)
     private ProjectStatus status;

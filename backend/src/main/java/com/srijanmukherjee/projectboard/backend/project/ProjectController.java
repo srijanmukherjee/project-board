@@ -3,6 +3,7 @@ package com.srijanmukherjee.projectboard.backend.project;
 import com.srijanmukherjee.projectboard.backend.project.exception.ProjectNotFoundException;
 import com.srijanmukherjee.projectboard.backend.requirement.Requirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +20,18 @@ public class ProjectController {
     }
 
     @GetMapping("")
-    public List<Project> getProjects() {
-        return projectService.getProjects();
+    public ProjectResponse getProjects(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer projectsPerPage,
+            @RequestParam(required = false) String query) {
+
+        Page<Project> projectPage = projectService.getProjects(page, projectsPerPage, query);
+        return new ProjectResponse(
+                projectPage.toList(),
+                projectPage.getNumber() + 1,
+                projectPage.getTotalPages(),
+                projectPage.getTotalElements(),
+                projectPage.getNumberOfElements());
     }
 
     @PostMapping("")

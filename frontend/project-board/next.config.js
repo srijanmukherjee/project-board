@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+const path = require('path');
 
-module.exports = nextConfig
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+	sassOptions: {
+		includePath: [path.join(__dirname, 'src/app/styles')]
+	}
+};
+
+module.exports = nextConfig;
