@@ -2,11 +2,12 @@
 
 import './globals.scss';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Inter } from 'next/font/google';
 import Container from '@component/Container';
-import { store } from './store/configureStore';
+import { store, useAppDispatch } from './store/configureStore';
+import { setJWT } from '@feature/account/accountSlice';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '600'] });
 
